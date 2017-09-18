@@ -3,7 +3,7 @@ import java.util.Scanner
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Main extends App {
+object AOJ2828 extends App {
   val in = new Scanner(System.in)
 
   def solve(n: Int): Long = {
@@ -48,9 +48,11 @@ object Main extends App {
 
 }
 
-class Edge(val to: Int, var cap: Long, val cost: Long, val rev: Int)
 
 class MinimumCostFlow(V: Int) {
+
+  class Edge(val to: Int, var cap: Long, val cost: Long, val rev: Int)
+
   val graph: Array[ArrayBuffer[Edge]] = (for (_ <- 0 until V) yield new ArrayBuffer[Edge]()).toArray
   val prevV = new Array[Int](V)
   val prevE = new Array[Int](V)
