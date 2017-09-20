@@ -3,7 +3,7 @@ import java.util.Scanner
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Main extends App {
+object ACPC2017Day1E extends App {
   val in = new Scanner(System.in)
   val V = in.nextInt()
   val E = in.nextInt()
@@ -47,9 +47,9 @@ object Main extends App {
 
 class Dinitz(val V: Int) {
 
-  class Edge(var to: Int, var cap: Long, var rev: Int)
+  class Edge(val to: Int, var cap: Long, val rev: Int)
 
-  val graph = (for (_ <- 0 until V) yield new ArrayBuffer[Edge]()).toArray
+  val graph: Array[ArrayBuffer[Edge]] = (for (_ <- 0 until V) yield new ArrayBuffer[Edge]()).toArray
 
   def addEdge(from: Int, to: Int, cap: Long): Unit = {
     graph(from).append(new Edge(to, cap, graph(to).size))
