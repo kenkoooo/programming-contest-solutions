@@ -10,37 +10,42 @@ fn main() {
         (v[0], v[1])
     };
     let a = (0..n).map(|_| {
-        read_values::<usize>()
+        let mut v = read_values::<usize>();
+        for i in 0..v.len() {
+            v[i] -= 1;
+        }
+        v
     }).collect::<Vec<_>>();
 
-    let mut min = n;
-    let mut alive = vec![true; m];
+    let mut dead = vec![false; m];
+    let mut ans = n;
+    let mut heads = vec![0; n];
     for _ in 0..(m - 1) {
         let mut count = vec![0; m];
         for i in 0..n {
-            for j in 0..m {
-                let sport = a[i][j] - 1;
-                if alive[sport] {
-                    count[sport] += 1;
-                    break;
-                }
+            while dead[a[i][heads[i]]] {
+                heads[i] += 1;
             }
+            count[a[i][heads[i]]] += 1;
         }
 
-        let mut max = 0;
-        for i in 0..m {
-            max = cmp::max(max, count[i]);
-        }
-        min = cmp::min(min, max);
-        for i in 0..m {
-            if count[i] == max {
-                alive[i] = false;
-                break;
+        let mut largest = a[0][heads[0]];
+        for j in 0..m {
+            if count[largest] < count[j] {
+                largest = j;
             }
         }
+        ans = cmp::min(ans, count[largest]);
+
+        for i in 0..n {
+            if a[i][heads[i]] == largest {
+                heads[i] += 1;
+            }
+        }
+        dead[largest] = true;
     }
 
-    println!("{}", min);
+    println!("{}", ans);
 }
 
 fn read_line() -> String {
